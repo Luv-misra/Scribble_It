@@ -23,15 +23,15 @@
         android:background="@android:color/background_light" />
 
     <Button
-        android:text="CLEAR CANVAS"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:background="@drawable/eraser"
+        android:elevation="10dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:id="@+id/button"
         android:onClick="clearCanvas"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
 
 
 </RelativeLayout>

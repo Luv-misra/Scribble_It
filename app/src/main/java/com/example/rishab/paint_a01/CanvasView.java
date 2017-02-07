@@ -1,5 +1,6 @@
 package com.example.rishab.paint_a01;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,7 +25,6 @@ import static android.R.attr.start;
 public class CanvasView extends View{
 
     int color_change_tracker;
-    boolean again=true;
     public Bitmap mBitmap;
     float width = 7 ;
     public Canvas mCanvas;
@@ -38,6 +38,7 @@ public class CanvasView extends View{
     public ArrayList<Paint> PAINTS = new ArrayList<Paint>();
     CountDownTimer countdowntimer;
     int shut_down_the_app;
+    boolean inactive=false;
 
     public void new_paint( )
     {
@@ -64,24 +65,30 @@ public class CanvasView extends View{
                     if( shut_down_the_app >=2 )
                     {
                         countdowntimer.cancel();
-                        Log.i(" TAG ", " ending this work ");
+                        Log.i(" TAG ", " ending this work "+inactive);
+
+                        if(!inactive)
+                            ((Activity)context).finish();
+                        else{
+                            if(color_change_tracker!=0 && color_change_tracker!=1){
+                                color_change_tracker-=2;
+                            }else if(color_change_tracker==0){
+                                color_change_tracker=4;
+                            }else{
+                                color_change_tracker=5;
+                            }
 
 
-                        if(color_change_tracker!=0 && color_change_tracker!=1){
-                            color_change_tracker-=2;
-                        }else if(color_change_tracker==0){
-                            color_change_tracker=4;
-                        }else{
-                            color_change_tracker=5;
+                            Intent i = new Intent(getContext(), guessing.class);
+                            i.putExtra("color",color_change_tracker);
+                            ((Activity)context).finish();
+                            context.startActivity(i);
+                            Log.i(" TAG ", " returning from here " + Integer.toString(color_change_tracker));
+                            return;
+                        }
                         }
 
 
-                        Intent i = new Intent(getContext(), guessing.class);
-                        i.putExtra("color",color_change_tracker);
-                        context.startActivity(i);
-                        Log.i(" TAG ", " returning from here " + Integer.toString(color_change_tracker));
-                        return;
-                    }
                     else if( mPath.isEmpty() )
                     {
                         Log.i("TAG", " path empty ");
@@ -116,7 +123,6 @@ public class CanvasView extends View{
         color_change_tracker=0;
         mPath= new Path();
         mPaint= new Paint();
-        shut_down_the_app=0;
         COLORS.add(Integer.toString(Color.BLUE));
         COLORS.add(Integer.toString(Color.rgb(255,192,203)));
         COLORS.add(Integer.toString(Color.YELLOW));
@@ -147,11 +153,14 @@ public class CanvasView extends View{
         mPath.moveTo(x,y);
         mx=x;
         my=y;
+        inactive=true;
     }
 
     private void moveTouch(float x,float y){
+
         if( mPath.isEmpty() )
         mPath.moveTo(mx,my);
+
         float dx = Math.abs(x-mx);
         float dy = Math.abs(y-my);
         if(dx >= TOLERANCE || dy >= TOLERANCE){
@@ -169,6 +178,9 @@ public class CanvasView extends View{
         mPaint.setColor(Integer.parseInt(COLORS.get(color_change_tracker++)));
         PATHS.clear();
         PAINTS.clear();
+        inactive=false;
+        countdowntimer.cancel();
+        control_timer();
         invalidate();
     }
 

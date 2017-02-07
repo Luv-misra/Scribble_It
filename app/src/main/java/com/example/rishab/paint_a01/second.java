@@ -41,6 +41,14 @@ public class second extends AppCompatActivity {
 
         canvasView.clearCanvas();
 
+
     }
 
+    public void onBackPressed(){
+        // do something here and don't write super.onBackPressed()
+        canvasView.countdowntimer.cancel();
+        Intent I=new Intent(this,MainActivity.class);
+        finish();
+        startActivity(I);
+    }
 }

@@ -31,7 +31,9 @@ public class MainActivity extends AppCompatActivity {
     public void goToCanvas(View view){
 
         Intent i=new Intent(this,second.class);
+        finish();
         startActivity(i);
+
 
     }
 
@@ -41,13 +43,13 @@ public class MainActivity extends AppCompatActivity {
         HIGHSCORE = Integer.parseInt(HighScore);
     }
 
-    public void addHighScore()
+  /*  public void addHighScore()
     {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         HIGHSCORE++;
         editor.putString("highscore",Integer.toString(HIGHSCORE));
         editor.commit();
-    }
+    }*/
     //SHARED PREFERANCES KA KAAM KHATAM
 
 
@@ -56,7 +58,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        Score S=new Score();
+        if(Score.apprun)
+            S.Speech(this," Hello Kid ");
+        Score.apprun=false;
         setContentView(R.layout.activity_main);
         sc = (TextView)findViewById(R.id.score1);
         play = (ImageView)findViewById(R.id.play);
@@ -75,33 +80,12 @@ public class MainActivity extends AppCompatActivity {
         setHighScore();
         //TEXT TO SPEECH WORK IS DONE HERE
 
-        ttsobject = new TextToSpeech(MainActivity.this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-
-                if( status == TextToSpeech.SUCCESS )
-                {
-                    ttsobject.setLanguage(Locale.ENGLISH);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        Toast.makeText(MainActivity.this, "speaking" , Toast.LENGTH_SHORT).show();
-                        ttsobject.speak(" hello KID ",TextToSpeech.QUEUE_FLUSH,null,null);
-                    } else {
-                        ttsobject.speak(" hello KID ", TextToSpeech.QUEUE_FLUSH, null);
-                    }
-                }
-                else
-                {
-                    Toast.makeText(MainActivity.this," Text to Speech language ERROR ", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
 
         //TEXT TO SPEECH WORK ENDS HERE
 
         sc.setText(Integer.toString(HIGHSCORE));
         //Toast.makeText(this,Integer.toString(HIGHSCORE), Toast.LENGTH_SHORT).show();
-        addHighScore();
+       // addHighScore();
         //SHARED PREFERACES KA KAAM KHATAM
 
 

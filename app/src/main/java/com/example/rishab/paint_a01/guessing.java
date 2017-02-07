@@ -1,7 +1,15 @@
 package com.example.rishab.paint_a01;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.os.CountDownTimer;
+import android.os.SystemClock;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +26,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 public class guessing extends AppCompatActivity {
 
@@ -33,8 +43,10 @@ public class guessing extends AppCompatActivity {
     String Btn;
     TextView tv;
     int correctButNum;
-
-
+    SharedPreferences sharedPreferences;
+    TextView TV;
+    CountDownTimer countdowntimer;
+    boolean active=true;
 
     public void randomAdd(int correctColor){
         for(int i=1;i<=3;i++) {
@@ -46,43 +58,99 @@ public class guessing extends AppCompatActivity {
         }
     }
 
+    public void addHighScore()
+    {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("highscore",Integer.toString(Score.score));
+        editor.commit();
+    }
+
+    public void control_timer( )
+    {
+        countdowntimer =  new CountDownTimer( 1200 , 1200 ) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+            @Override
+            public void onFinish() {
+
+                Intent I=new Intent(guessing.this,MainActivity.class);
+                finish();
+                startActivity(I);
+            }
+        }.start();
+
+
+    }
     public void matchAns(View view) {
+        if(active){
+            active=false;
+            Vibrator vibrator;
+            vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            vibrator.vibrate(500);
+            Score S=new Score();
+            Btn = view.getTag().toString();
+            //Toast.makeText(this, Btn, Toast.LENGTH_SHORT).show();
+            if(Btn.equals(Integer.toString(correctButNum)))
+            {
 
-        Btn = view.getTag().toString();
-        //Toast.makeText(this, Btn, Toast.LENGTH_SHORT).show();
-        if(Btn.equals(Integer.toString(correctButNum)))
-        {
-            ImageView iv=(ImageView)findViewById(R.id.imageView4);
-            iv.setVisibility(View.VISIBLE);
-            AnimationSet as=new AnimationSet(true);
+                control_timer();
+                Score.score++;
+                String HighScore = sharedPreferences.getString("highscore","");
+                int HIGHSCORE = Integer.parseInt(HighScore);
 
-            as.setFillEnabled(true);
-            TranslateAnimation anim = new TranslateAnimation(
-                    TranslateAnimation.RELATIVE_TO_PARENT,0.0f,
-                    TranslateAnimation.RELATIVE_TO_SELF,+0.8f,
-                    TranslateAnimation.RELATIVE_TO_PARENT,0.0f,
-                    TranslateAnimation.RELATIVE_TO_SELF,-0.5f
-            );
-            ScaleAnimation anims=new ScaleAnimation(
-                    1f,0.2f,1f,0.2f
-            );
+                if(Score.score>HIGHSCORE){
+                    addHighScore();
+                    S.Speech(this,"Congrats New Highscore");
+                }
+                else
+                    S.Speech(this,"Congratulation You Won");
+                TV.setText(""+Score.score);
+
+                Toast.makeText(this,"You WON",Toast.LENGTH_LONG).show();
+                ImageView iv=(ImageView)findViewById(R.id.imageView4);
+                iv.setVisibility(View.VISIBLE);
+                AnimationSet as=new AnimationSet(true);
+
+                as.setFillEnabled(true);
+                TranslateAnimation anim = new TranslateAnimation(
+                        TranslateAnimation.RELATIVE_TO_PARENT,0.0f,
+                        TranslateAnimation.RELATIVE_TO_SELF,+0.8f,
+                        TranslateAnimation.RELATIVE_TO_PARENT,0.0f,
+                        TranslateAnimation.RELATIVE_TO_SELF,-0.5f
+                );
+                ScaleAnimation anims=new ScaleAnimation(
+                        1f,0.2f,1f,0.2f
+                );
 
             /*RotateAnimation rot =new RotateAnimation(
                     RotateAnimation.RELATIVE_TO_PARENT,
             );*/
 
-            anim.setDuration(1000);
-            anims.setDuration(1000);
-            //rot.setDuration(1500);
-            as.addAnimation(anims);
-            as.addAnimation(anim);
-            //as.addAnimation(rot);
-            iv.setAnimation(as);
-            //as.setFillAfter(true);
-            iv.setVisibility(View.INVISIBLE);
+                anim.setDuration(1000);
+                anims.setDuration(1000);
+                //rot.setDuration(1500);
+                as.addAnimation(anims);
+                as.addAnimation(anim);
+                //as.addAnimation(rot);
+                iv.setAnimation(as);
+                //as.setFillAfter(true);
+                iv.setVisibility(View.INVISIBLE);
 
 
+
+            }
+            else{
+                S.Speech(this,"Oops You Lost");
+                Toast.makeText(this,"You LOST",Toast.LENGTH_LONG).show();
+                Intent I=new Intent(guessing.this,MainActivity.class);
+                finish();
+                startActivity(I);
+            }
         }
+
+
+
 
     }
 
@@ -223,16 +291,21 @@ public class guessing extends AppCompatActivity {
         color.add("red");
 
         current_color = this.getIntent().getIntExtra("color",0);
-
+        TV=(TextView)findViewById(R.id.score);
+        sharedPreferences = this.getSharedPreferences("com.example.rishab.paint_a01",Context.MODE_PRIVATE);
+        TV.setText(""+Score.score);
+        String colour="";
         switch(current_color) {
 
-            case 0: tv.setBackgroundColor(Color.BLUE);break;
-            case 1: tv.setBackgroundColor(Color.rgb(255,192,203));break;
-            case 2: tv.setBackgroundColor(Color.YELLOW);break;
-            case 3: tv.setBackgroundColor(Color.rgb(255,165,0));break;
-            case 4: tv.setBackgroundColor(Color.GREEN);break;
-            case 5: tv.setBackgroundColor(Color.RED);break;
+            case 0: tv.setBackgroundColor(Color.BLUE);colour="Blue";break;
+            case 1: tv.setBackgroundColor(Color.rgb(255,192,203));colour="Pink";break;
+            case 2: tv.setBackgroundColor(Color.YELLOW);colour="Yellow";break;
+            case 3: tv.setBackgroundColor(Color.rgb(255,165,0));colour="Orange";break;
+            case 4: tv.setBackgroundColor(Color.GREEN);colour="Green";break;
+            case 5: tv.setBackgroundColor(Color.RED);colour="Red";break;
         }
+        Score S=new Score();
+        S.Speech(this,"Select "+colour+" Color");
         randomAdd(current_color);
 
         int b = num.nextInt(4);
@@ -255,5 +328,13 @@ public class guessing extends AppCompatActivity {
             addImg(i,ques.get(j),temp);
 
         }
+    }
+
+    public void onBackPressed(){
+        // do something here and don't write super.onBackPressed()
+
+        Intent I=new Intent(this,MainActivity.class);
+        finish();
+        startActivity(I);
     }
 }
