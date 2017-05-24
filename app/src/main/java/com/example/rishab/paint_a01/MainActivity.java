@@ -68,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
         //SHARED PREFERANCES KA KAAM SHURU
 
-
-
         sharedPreferences = this.getSharedPreferences("com.example.rishab.paint_a01",Context.MODE_PRIVATE);
 
         if( !sharedPreferences.contains("highscore") )
