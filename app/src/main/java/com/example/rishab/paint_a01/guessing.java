@@ -176,16 +176,22 @@ public class guessing extends AppCompatActivity {
             case 1:
                     if(color==4) {
                         btn.setImageResource(R.drawable.green1);
+                        btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     }else if(color==3){
                         btn.setImageResource(R.drawable.orange1);
+                        btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     }else if(color==0){
                         btn.setImageResource(R.drawable.blue1);
+                        btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     }else if(color==2){
-                        btn.setImageResource(R.drawable.yelow1);
+                        btn.setImageResource(R.drawable.yellow1);
+                        btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     }else if(color==5){
                         btn.setImageResource(R.drawable.red1);
+                        btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     }else if(color==1){
                         btn.setImageResource(R.drawable.pink1);
+                        btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     }
 
                     break ;
@@ -194,16 +200,22 @@ public class guessing extends AppCompatActivity {
 
                 if(color==4) {
                     btn.setImageResource(R.drawable.green2);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==3){
                     btn.setImageResource(R.drawable.orange2);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==0){
                     btn.setImageResource(R.drawable.blue2);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==2){
                     btn.setImageResource(R.drawable.yellow2);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==5){
                     btn.setImageResource(R.drawable.red2);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==1){
                     btn.setImageResource(R.drawable.pink2);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }
 
                 break ;
@@ -212,16 +224,22 @@ public class guessing extends AppCompatActivity {
 
                 if(color==4) {
                     btn.setImageResource(R.drawable.green3);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==3){
                     btn.setImageResource(R.drawable.orange3);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==0){
                     btn.setImageResource(R.drawable.blue3);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==2){
                     btn.setImageResource(R.drawable.yellow3);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==5){
                     btn.setImageResource(R.drawable.red3);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==1){
                     btn.setImageResource(R.drawable.pink3);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }
 
                 break ;
@@ -230,16 +248,22 @@ public class guessing extends AppCompatActivity {
 
                 if(color==4) {
                     btn.setImageResource(R.drawable.green4);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==3){
                     btn.setImageResource(R.drawable.orange4);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==0){
                     btn.setImageResource(R.drawable.blue4);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==2){
                     btn.setImageResource(R.drawable.yellow4);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==5){
                     btn.setImageResource(R.drawable.red4);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==1){
                     btn.setImageResource(R.drawable.pink4);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }
 
                 break ;
@@ -248,16 +272,22 @@ public class guessing extends AppCompatActivity {
 
                 if(color==4) {
                     btn.setImageResource(R.drawable.green5);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==3){
                     btn.setImageResource(R.drawable.orange5);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==0){
                     btn.setImageResource(R.drawable.blue5);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==2){
                     btn.setImageResource(R.drawable.yellow5);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==5){
                     btn.setImageResource(R.drawable.red5);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }else if(color==1){
                     btn.setImageResource(R.drawable.pink5);
+                    btn.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }
 
                 break ;
@@ -319,7 +349,6 @@ public class guessing extends AppCompatActivity {
             if(i==b){
                 j--;
                 correctButNum = b;
-                //Toast.makeText(getApplicationContext(), Integer.toString(b)+" "+Integer.toString(current_color)+" "+Integer.toString(c), Toast.LENGTH_SHORT).show();
                 addImg(b,current_color,c);
                 continue;
             }
