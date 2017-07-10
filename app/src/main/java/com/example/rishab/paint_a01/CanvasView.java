@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import static android.R.attr.start;
 
@@ -37,7 +38,7 @@ public class CanvasView extends View{
     public ArrayList<Path> PATHS = new ArrayList<Path>();
     public ArrayList<Paint> PAINTS = new ArrayList<Paint>();
     CountDownTimer countdowntimer;
-    int shut_down_the_app;
+    int shut_down_the_app=0;
     boolean inactive=false;
 
     public void new_paint( )
@@ -54,18 +55,18 @@ public class CanvasView extends View{
     }
     public void control_timer( )
     {
-          countdowntimer =  new CountDownTimer( 3000+100 , 3000 ) {
+          countdowntimer =  new CountDownTimer( 2000+100 , 2000 ) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                 }
                 @Override
                 public void onFinish() {
-                    Log.i(" TAG ", " into finish ");
-                    shut_down_the_app++;
-                    if( shut_down_the_app >=2 )
+                    shut_down_the_app = shut_down_the_app+1;
+                    Log.i(" TAG ", Integer.toString(shut_down_the_app));
+                    if( shut_down_the_app > 1 )
                     {
                         countdowntimer.cancel();
-                        Log.i(" TAG ", " ending this work "+inactive);
+//                        Log.i(" TAG ", " ending this work "+inactive);
 
                         if(!inactive)
                             ((Activity)context).finish();
@@ -83,7 +84,7 @@ public class CanvasView extends View{
                             i.putExtra("color",color_change_tracker);
                             ((Activity)context).finish();
                             context.startActivity(i);
-                            Log.i(" TAG ", " returning from here " + Integer.toString(color_change_tracker));
+//                            Log.i(" TAG ", " returning from here " + Integer.toString(color_change_tracker));
                             return;
                         }
                         }
@@ -91,12 +92,12 @@ public class CanvasView extends View{
 
                     else if( mPath.isEmpty() )
                     {
-                        Log.i("TAG", " path empty ");
+//                        Log.i("TAG", " path empty ");
                     }
                     else
                     {
                         shut_down_the_app = 0;
-                        Log.i("TAG", " path NOT empty ");
+//                        Log.i("TAG", " path NOT empty ");
                         PATHS.add(mPath);
                         PAINTS.add(mPaint);
                         mPaint = new Paint();
@@ -120,7 +121,8 @@ public class CanvasView extends View{
         super(context, attrs);
         this.context = context;
         shut_down_the_app=0;
-        color_change_tracker=0;
+        Random rand = new Random();
+        color_change_tracker = rand.nextInt(5); ;
         mPath= new Path();
         mPaint= new Paint();
         COLORS.add(Integer.toString(Color.BLUE));
@@ -173,8 +175,9 @@ public class CanvasView extends View{
 
     public void clearCanvas(){
         mPath.reset();
-        Log.i("TAG", "D");
-        color_change_tracker=0;
+//        Log.i("TAG", "D");
+        Random rand = new Random();
+        color_change_tracker=rand.nextInt(5);;
         mPaint.setColor(Integer.parseInt(COLORS.get(color_change_tracker++)));
         PATHS.clear();
         PAINTS.clear();

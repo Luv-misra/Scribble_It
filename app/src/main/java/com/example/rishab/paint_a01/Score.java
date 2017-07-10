@@ -15,9 +15,9 @@ public class Score {
 
     public static int score=0;
     public static boolean apprun=true;
-    TextToSpeech ttsobject;
+    static TextToSpeech ttsobject;
 
-    public void Speech(Context context,String string){
+    public static void Speech(Context context,String string){
 
         final Context This=context;
         final String S=string;
@@ -29,7 +29,7 @@ public class Score {
                 {
                     ttsobject.setLanguage(Locale.ENGLISH);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        Toast.makeText(This, "speaking" , Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(This, "speaking" , Toast.LENGTH_SHORT).show();
                         ttsobject.speak(S,TextToSpeech.QUEUE_FLUSH,null,null);
                     } else {
                         ttsobject.speak(S, TextToSpeech.QUEUE_FLUSH, null);

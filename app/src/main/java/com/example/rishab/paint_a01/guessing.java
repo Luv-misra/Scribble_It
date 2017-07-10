@@ -1,36 +1,32 @@
 package com.example.rishab.paint_a01;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.RotateAnimation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 public class guessing extends AppCompatActivity {
-
 
     int current_color;
     ArrayList<String> color;
@@ -40,6 +36,7 @@ public class guessing extends AppCompatActivity {
     ImageButton but2;
     ImageButton but3;
     ImageButton but4;
+    Random rand;
     String Btn;
     TextView tv;
     int correctButNum;
@@ -73,14 +70,9 @@ public class guessing extends AppCompatActivity {
             }
             @Override
             public void onFinish() {
-
-                Intent I=new Intent(guessing.this,MainActivity.class);
-                finish();
-                startActivity(I);
+                goback();
             }
         }.start();
-
-
     }
     public void matchAns(View view) {
         if(active){
@@ -98,17 +90,21 @@ public class guessing extends AppCompatActivity {
                 Score.score++;
                 String HighScore = sharedPreferences.getString("highscore","");
                 int HIGHSCORE = Integer.parseInt(HighScore);
-
+                constant.mode=1;
                 if(Score.score>HIGHSCORE){
                     addHighScore();
                     S.Speech(this,"Congrats New Highscore");
+
                 }
-                else
-                    S.Speech(this,"Congratulation You Won");
+                else {
+                    S.Speech(this, "Congratulation You Won");
+//
+
+                }
                 TV.setText(""+Score.score);
 
                 Toast.makeText(this,"You WON",Toast.LENGTH_LONG).show();
-                ImageView iv=(ImageView)findViewById(R.id.imageView4);
+                ImageView iv=(ImageView)findViewById(R.id.apr);
                 iv.setVisibility(View.VISIBLE);
                 AnimationSet as=new AnimationSet(true);
 
@@ -143,17 +139,30 @@ public class guessing extends AppCompatActivity {
             else{
                 S.Speech(this,"Oops You Lost");
                 Toast.makeText(this,"You LOST",Toast.LENGTH_LONG).show();
-                Intent I=new Intent(guessing.this,MainActivity.class);
-                finish();
-                startActivity(I);
+
+
+
+
+                constant.mode=0;
+                goback();
+
             }
         }
-
-
-
-
     }
 
+    public void goback(){
+
+        if(constant.mode == 100){
+            Intent I = new Intent(guessing.this, MainActivity.class);
+            finish();
+            startActivity(I);
+        }else {
+
+            Intent I = new Intent(guessing.this, chuti.class);
+            finish();
+            startActivity(I);
+        }
+    }
 
     public void addImg( int btnnum , int color , int number ){  //(0-3,0-5,1-)
 
@@ -307,6 +316,8 @@ public class guessing extends AppCompatActivity {
         ques = new ArrayList<Integer>();
         TextView tv=(TextView)findViewById(R.id.textView2);
 
+
+
         but1 =(ImageButton)findViewById(R.id.button1);
         but2 =(ImageButton)findViewById(R.id.button2);
         but3 =(ImageButton)findViewById(R.id.button3);
@@ -334,14 +345,53 @@ public class guessing extends AppCompatActivity {
             case 4: tv.setBackgroundColor(Color.GREEN);colour="Green";break;
             case 5: tv.setBackgroundColor(Color.RED);colour="Red";break;
         }
-        Score S=new Score();
-        S.Speech(this,"Select "+colour+" Color");
+//        Score S=new Score();
+        Score.Speech(this,"Select "+colour+" Color");
         randomAdd(current_color);
 
         int b = num.nextInt(4);
         int c = num.nextInt(5)+1;
 
 
+        /*Set<Integer> a = new HashSet<Integer>();
+
+        int prev = 0;
+
+        a.add(99);
+        int j=0;
+        int temp2=0;
+
+        *//*while(j<4){
+
+            int c = num.nextInt(6)
+        }*//*
+
+        while(j < 4){
+            int c = num.nextInt(6);
+            prev=(a.size()-1);
+
+
+            if((a.size()-1)==b){
+
+                correctButNum = b;
+                addImg(b,current_color,c);
+                a.add(current_color);
+                j++;
+
+            }
+            else{
+
+                temp2 = num.nextInt(5)+1;
+                a.add(c);
+
+            if(prev < (a.size()-1)){
+                addImg(j,c,temp2);
+                j++;
+            }}
+
+            Log.i("onCreate: ",Integer.toString(a.size()-1));
+            Log.i("onCreate: ",Integer.toString(j)+Integer.toString(c)+Integer.toString(temp2));
+        }*/
 
 
         for(int j=0,i=0;i<4;i++,j++){
@@ -354,14 +404,19 @@ public class guessing extends AppCompatActivity {
             }
 
             int temp=num.nextInt(5)+1;
-            addImg(i,ques.get(j),temp);
+            int temp2 = num.nextInt(5);
+
+            while(temp2 == current_color){
+                temp2 = num.nextInt(5);
+            }
+            addImg(i,temp2,temp);
+
 
         }
     }
 
     public void onBackPressed(){
         // do something here and don't write super.onBackPressed()
-
         Intent I=new Intent(this,MainActivity.class);
         finish();
         startActivity(I);

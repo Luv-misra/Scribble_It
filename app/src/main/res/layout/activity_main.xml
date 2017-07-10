@@ -32,13 +32,13 @@
 
 
     <TextView
-        android:text="BADGES"
+        android:text="Scribble &amp; Learn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="47dp"
+        android:layout_marginTop="40dp"
         android:id="@+id/textView"
         android:fontFamily="monospace"
-        android:textSize="60sp"
+        android:textSize="40sp"
         android:textStyle="normal|bold"
         android:textAllCaps="false"
         android:textAlignment="center"

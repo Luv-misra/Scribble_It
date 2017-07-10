@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         //TEXT TO SPEECH WORK ENDS HERE
 
-        sc.setText(Integer.toString(HIGHSCORE));
+        sc.setText(Integer.toString(Score.score));
         //Toast.makeText(this,Integer.toString(HIGHSCORE), Toast.LENGTH_SHORT).show();
        // addHighScore();
         //SHARED PREFERACES KA KAAM KHATAM
